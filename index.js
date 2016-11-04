@@ -1,5 +1,3 @@
-//TODO size?
-//TODO minified version
 //TODO extensions for $.fn? Does it works?
 //TODO should I use fetch polyfill?
 //TODO unit-tests?

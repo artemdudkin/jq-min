@@ -1,10 +1,10 @@
 # jq
-My (minimal) jQuery-like lib (IE9+)
+My (minimal) jQuery-like lib (IE9+) 1.4k zipped
 
 ## API
 
 ### `post(url, data, successCallback, failCallback)`
-jQuery-like ajax (only POST, only application/json, no cross-domain?) IE9+
+jQuery-like ajax (only POST, only application/json, no cross-domain?) IE9+ 1.4k zipped
 
 ### `$(...)`
 select all elements at page by css selector
