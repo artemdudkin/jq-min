@@ -1,5 +1,5 @@
 # jq
-My (minimal) jQuery-like lib (with method chaining) IE9+
+My (minimal) jQuery-like lib (IE9+)
 
 ## API
 
