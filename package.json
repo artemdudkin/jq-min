@@ -1,0 +1,21 @@
+{
+  "author": "Artem Dudkin <sheeva@list.ru>",
+  "name": "jq",
+  "license" : "MIT",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/artemdudkin/jq.git"
+  },
+  "main": "index.js",
+  "scripts": {
+  },
+  "devDependencies": {
+  },
+  "dependencies": {
+  },
+  "keywords": [
+    "jquery",
+    "minimal"
+  ]
+}
