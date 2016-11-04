@@ -1,11 +1,21 @@
-//
-//jQuery-like ajax (only POST, only application/json, no cross-domain?) IE9+
-//
-// url
-// data                        == json to send (not stringified)
-// success(responseText, data) == success callback, where data is parsed json fron responseText
-// fail(status, statusText)    == fail callback
-//
+//TODO size?
+//TODO minified version
+//TODO extensions for $.fn? Does it works?
+//TODO should I use fetch polyfill?
+//TODO unit-tests?
+
+
+
+
+
+/**
+* jQuery-like ajax (only POST, only application/json, no cross-domain?) IE9+
+* 
+*  url
+*  data                        == json to send (not stringified)
+*  success(responseText, data) == success callback, where data is parsed json fron responseText
+*  fail(status, statusText)    == fail callback
+**/
 function post( url, data, success, fail){
 	var xhr = new XMLHttpRequest();
 
@@ -13,8 +23,6 @@ function post( url, data, success, fail){
 	xhr.setRequestHeader('Content-Type', 'application/json');
 	xhr.onreadystatechange = function() {
 		if (this.readyState != 4) return;
-//	xhr.onload = function() {
-
 		if (xhr.status === 200) {
 			var data; try { data = JSON.parse(xhr.responseText); } catch (e) {}
 			if (success) success(xhr.responseText, data);
@@ -25,24 +33,22 @@ function post( url, data, success, fail){
 	xhr.send(JSON.stringify(data));    
 }
 
-
-
-//
-//jQuery-like lib (with method chaining) IE9+
-//
-// $(...)                          == select all elements at page by css selector
-// $('<div id="123"></div>')       == creates new element(s) (returns array)
-// find('div a')                   == find all children of all elements by selector
-// html()                          == returns innerHTML of first element
-// html('aaa')                     == set up innerHTML for all elements
-// css('font-size')                == returns css value of first element
-// css('color:red;font-size:20px') == set up css for all elements 
-// addClass                        == add class to all elements
-// removeClass
-// hasClass                        == whether any element has specified class
-// toggleClass
-// event handlers, like $(...).click(f) where f is function == appends new event handler
-//
+/**
+* jQuery-like lib (with method chaining) IE9+
+* 
+*  $(...)                          == select all elements at page by css selector
+*  $('<div id="123"></div>')       == creates new element(s) (returns array)
+*  find('div a')                   == find all children of all elements by selector
+*  html()                          == returns innerHTML of first element
+*  html('aaa')                     == set up innerHTML for all elements
+*  css('font-size')                == returns css value of first element
+*  css('color:red;font-size:20px') == set up css for all elements 
+*  addClass                        == add class to all elements
+*  removeClass
+*  hasClass                        == whether any element has specified class
+*  toggleClass
+*  event handlers, like $(...).click(f) where f is function == appends new event handler
+**/
 var $ = (function(){
 
 //main function of constructor of $
