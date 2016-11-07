@@ -21,12 +21,10 @@ show/hide all elements selected
 appends new event handler (for click, dblclick, mouseover etc. - almost all events), where f is function
 
 
-### `$().html(...)`
+### `$().html('aaa') / $().html()`
 set up innerHTML for all elements / (parameterless) returns innerHTML of first element 
-### `$().css('font-size')`
-returns css value of first element
-### `$().css('color:red;font-size:20px')`
-set up css for all elements 
+### `$().css('color:red;font-size:20px') / $().css('font-size')`
+set up css for all elements / returns css value of first element
 ### `$().addClass(name) / $().removeClass(name) / $().toggleClass(name)`
 add/remove/toggle class at all elements selected
 ### `$().hasClass(name)`
