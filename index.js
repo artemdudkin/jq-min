@@ -1,4 +1,3 @@
-//TODO extensions for $.fn? Does it works?
 //TODO fix show/hide
 //TODO should I use fetch polyfill?
 //TODO unit-tests?
