@@ -17,7 +17,7 @@ find all children of all elements by selector
 find all elements selected
 ### `$().show() / $().hide()`
 show/hide all elements selected
-### `$().click(f)`
+### `$().<eventName>(f)`
 appends new event handler (for click, dblclick, mouseover etc. - almost all events), where f is function
 
 
