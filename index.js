@@ -59,7 +59,7 @@ function findOrCreate(str_selector, parent){
 		var div = document.createElement('div');
 		div.innerHTML = str_selector;
 		ret = div.childNodes;
-	} else if (str_selector instanceof Node) {
+	} else if (str_selector instanceof Node || str_selector instanceof Window) {
 	    ret = [str_selector] // if it is real dom node
 	} else if (str_selector && typeof str_selector.html === 'function') {
 		ret = str_selector; //if it is already $object, then just return it
