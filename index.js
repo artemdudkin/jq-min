@@ -3,32 +3,47 @@
 //TODO unit-tests?
 
 
-
-
-
 /**
-* jQuery-like ajax (only POST, only application/json, no cross-domain?) IE9+
+* jQuery-like ajax (no cross-domain?) IE9+
 * 
-*  url
-*  data                        == json to send (not stringified)
-*  success(responseText, data) == success callback, where data is parsed json fron responseText
-*  fail(status, statusText)    == fail callback
+*  url [mandatory]
+*  method                      == POST by default
+*  headers                     == array of header; adds 'Content-Type'='application/json' by default
+*  data                        == data to send (not stringified if json)
+*  success(responseText, data) == success callback, where data is parsed json from responseText
+*  fail(status, statusText, responseText) == fail callback
 **/
-function post( url, data, success, fail){
+function ajax(opt){
+	if (typeof opt.url !== 'string') {
+		throw new Error("No URL at ajax. Doing nothing.");
+	}
+
 	var xhr = new XMLHttpRequest();
 
-	xhr.open('POST', encodeURI(url));
-	xhr.setRequestHeader('Content-Type', 'application/json');
+	xhr.open(opt.method || 'POST', encodeURI(opt.url));
+
+	// set headers
+	let content_type_defined = false;
+        if (opt.headers instanceof Array) {
+		opt.headers.forEach( function(_itm) {
+	        	xhr.setRequestHeader(_itm.name, _itm.value);
+			if (_itm.name.toLowerCase() === 'content-type') content_type_defined = true;
+		})
+        }
+        if (!content_type_defined && !(opt.data instanceof FormData)) { // should not add any Content-Type if it is FormData
+          xhr.setRequestHeader('Content-Type', 'application/json');
+        }
+
 	xhr.onreadystatechange = function() {
 		if (this.readyState != 4) return;
 		if (xhr.status === 200) {
 			var data; try { data = JSON.parse(xhr.responseText); } catch (e) {}
-			if (success) success(xhr.responseText, data);
+			if (opt.success) opt.success(xhr.responseText, data);
 		} else { //if (xhr.status !== 200)
-			if (fail) fail(xhr.status, xhr.statusText);
+			if (opt.fail) opt.fail(xhr.status, xhr.statusText, xhr.responseText);
 		}
 	};
-	xhr.send(JSON.stringify(data));    
+	xhr.send( opt.data ? (opt.data instanceof FormData ? opt.data : JSON.stringify(opt.data)) : undefined);
 }
 
 /**
