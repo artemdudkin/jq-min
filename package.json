@@ -2,17 +2,17 @@
   "author": "Artem Dudkin <sheeva@list.ru>",
   "name": "jq-min",
   "license": "MIT",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": {
     "type": "git",
     "url": "git://github.com/artemdudkin/jq-min.git"
   },
   "main": "index.js",
   "scripts": {
-    "build" : "./node_modules/uglify-js/bin/uglifyjs  ./index.js --compress --mangle > ./index.min.js"
+    "build": "uglifyjs  ./index.js --compress --mangle > ./index.min.js"
   },
   "devDependencies": {
-    "uglify-js": "^2.7.4"
+    "uglify-js": "^3.12.1"
   },
   "dependencies": {},
   "keywords": [
