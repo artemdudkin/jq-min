@@ -16,7 +16,7 @@ creates new element(s) (returns array)
 ### `$().find('div a')`
 find all children of all elements by selector
 ### `$().remove()`
-find all elements selected
+remove all elements selected
 ### `$().show() / $().hide()`
 show/hide all elements selected
 ### `$().<eventName>(f)`
