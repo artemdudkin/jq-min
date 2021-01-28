@@ -2,20 +2,20 @@
 //TODO should I use fetch polyfill?
 //TODO unit-tests?
 
-
 /**
-* jQuery-like ajax (no cross-domain?) IE9+
+* jQuery-like ajax IE9+
 * 
 *  url [mandatory]
-*  method                      == POST by default
-*  headers                     == array of header; adds 'Content-Type'='application/json' by default
-*  data                        == data to send (not stringified if json)
+*  method           == POST by default
+*  headers          == array of header; adds 'Content-Type'='application/json' by default
+*  data             == data to send (not stringified if json)
 *  success(responseText, data) == success callback, where data is parsed json from responseText
 *  fail(status, statusText, responseText) == fail callback
 **/
 function ajax(opt){
 	if (typeof opt.url !== 'string') {
-		throw new Error("No URL at ajax. Doing nothing.");
+		console.error("No URL at ajax. Doing nothing.");
+		return;
 	}
 
 	var xhr = new XMLHttpRequest();
@@ -25,7 +25,7 @@ function ajax(opt){
 	// set headers
 	let content_type_defined = false;
         if (opt.headers instanceof Array) {
-		opt.headers.forEach( function(_itm) {
+		opt.headers.forEach( _itm => {
 	        	xhr.setRequestHeader(_itm.name, _itm.value);
 			if (_itm.name.toLowerCase() === 'content-type') content_type_defined = true;
 		})
@@ -43,8 +43,34 @@ function ajax(opt){
 			if (opt.fail) opt.fail(xhr.status, xhr.statusText, xhr.responseText);
 		}
 	};
-	xhr.send( opt.data ? (opt.data instanceof FormData ? opt.data : JSON.stringify(opt.data)) : undefined);
+	xhr.send( opt.data ? (opt.data instanceof FormData || typeof opt.data === 'string' ? opt.data : JSON.stringify(opt.data)) : undefined);
 }
+
+
+/**
+ * jQuery-like ajax IE9+ (promisified)
+ *
+ *  url [mandatory]
+ *  method          == POST by default
+ *  headers         == array of {name, value}; adds 'Content-Type'='application/json' by default
+ *  data            == data to send (not stringified if json)
+ *
+ * @returns Promise
+ *  @resolve(responseText, data) == success callback, where data is parsed json from responseText
+ *  @reject(status, statusText, responseText)
+ */
+function ajax_p(opt){
+  return new Promise(function(resolve, reject){
+    opt.success = function(responseText, data) {
+      resolve(responseText, data);
+    }
+    opt.fail = function(status, statusText, responseText) {
+      reject(status, statusText, responseText);
+    }
+    ajax(opt);
+  });
+}
+
 
 /**
 * jQuery-like lib (with method chaining) IE9+
@@ -71,9 +97,19 @@ function findOrCreate(str_selector, parent){
 
         var ret = [];
 	if (typeof str_selector === 'string' && str_selector.trim().indexOf('<') == 0) {//creates DOM nodes like this $('<div class="a">b</div>')
-		var div = document.createElement('div');
-		div.innerHTML = str_selector;
-		ret = div.childNodes;
+                if (str_selector.trim().indexOf('<tr') == 0) {
+			var e = document.createElement('table');
+			e.innerHTML = str_selector;
+			ret = e.tBodies[0].childNodes;
+                } else if (str_selector.trim().indexOf('<td') == 0) {
+			var e = document.createElement('table');
+			e.innerHTML = '<tr>' + str_selector + '</tr>';
+			ret = e.tBodies[0].childNodes[0].childNodes;
+                } else {
+			var e = document.createElement('div');
+			e.innerHTML = str_selector;
+			ret = e.childNodes;
+		}
 	} else if (str_selector instanceof Node || str_selector instanceof Window) {
 	    ret = [str_selector] // if it is real dom node
 	} else if (str_selector && typeof str_selector.html === 'function') {
