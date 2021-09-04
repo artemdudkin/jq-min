@@ -97,6 +97,7 @@ function findOrCreate(str_selector, parent){
 
         var ret = [];
 	if (typeof str_selector === 'string' && str_selector.trim().indexOf('<') == 0) {//creates DOM nodes like this $('<div class="a">b</div>')
+                str_selector = str_selector.trim();
                 if (str_selector.trim().indexOf('<tr') == 0) {
 			var e = document.createElement('table');
 			e.innerHTML = str_selector;
@@ -170,11 +171,11 @@ var parseClass = function(el, classToRemove) {
 
 
 
-function $(selector){
+function $(selector, parent){
         if (!(selector instanceof Array)) selector = [selector];
 
 	var ret = [];
-        for (var i=0; i<selector.length; i++) ret = ret.concat(findOrCreate(selector[i]));
+        for (var i=0; i<selector.length; i++) ret = ret.concat(findOrCreate(selector[i], parent));
 
 	for (var i in $.fn) if (typeof $.fn[i] === 'function') ret[i] = $.fn[i].bind(ret);
 
@@ -230,6 +231,7 @@ $.fn.css = function(c) {
 						}
 					}
 				}
+				return '';
 			} else {// c is css style like 'color:red;font-size:16px' -> apply it to all elements
 				var css = c.split(';');
 				for (var j in css) if (css[j]) css[j] = css[j].split(':');
@@ -251,7 +253,7 @@ $.fn.hasClass = function(c) {
 			var classes = parseClass(this[i]);
 			if (classes.indexOf(c)>=0) ret = true;
 		}
-		return this;
+		return ret;
 };
 $.fn.addClass = function(c) {
 		for (var i=0; i<this.length; i++) {
