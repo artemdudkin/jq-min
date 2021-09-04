@@ -1,5 +1,5 @@
-# jq
-My (minimal) jQuery-like lib (IE9+) 1.4k zipped
+# jq-min
+My (minimal) jQuery-like lib (IE9+) 2k minified zipped
 
 ## API
 
