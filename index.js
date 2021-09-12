@@ -62,10 +62,10 @@ function ajax(opt){
 function ajax_p(opt){
   return new Promise(function(resolve, reject){
     opt.success = function(responseText, data) {
-      resolve(responseText, data);
+      resolve({responseText, data});
     }
     opt.fail = function(status, statusText, responseText) {
-      reject(status, statusText, responseText);
+      reject({status, statusText, responseText});
     }
     ajax(opt);
   });
