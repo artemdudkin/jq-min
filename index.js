@@ -36,11 +36,20 @@ function ajax(opt){
 
 	xhr.onreadystatechange = function() {
 		if (this.readyState != 4) return;
+
+                const headers = {};
+                this.getAllResponseHeaders().trim().split(/[\r\n]+/).forEach((line) => {
+                  const parts = line.split(': ');
+                  const header = parts.shift();
+                  const value = parts.join(': ');
+                  headers[header] = value;
+                });
+
 		if (xhr.status === 200) {
 			var data; try { data = JSON.parse(xhr.responseText); } catch (e) {}
-			if (opt.success) opt.success(xhr.responseText, data);
+			if (opt.success) opt.success(xhr.responseText, data, headers);
 		} else { //if (xhr.status !== 200)
-			if (opt.fail) opt.fail(xhr.status, xhr.statusText, xhr.responseText);
+			if (opt.fail) opt.fail(xhr.status, xhr.statusText, xhr.responseText, headers);
 		}
 	};
 	xhr.send( opt.data ? (opt.data instanceof FormData || typeof opt.data === 'string' ? opt.data : JSON.stringify(opt.data)) : undefined);
@@ -61,11 +70,11 @@ function ajax(opt){
  */
 function ajax_p(opt){
   return new Promise(function(resolve, reject){
-    opt.success = function(responseText, data) {
-      resolve({responseText, data});
+    opt.success = function(responseText, data, headers) {
+      resolve({responseText, data, headers});
     }
-    opt.fail = function(status, statusText, responseText) {
-      reject({status, statusText, responseText});
+    opt.fail = function(status, statusText, responseText, headers) {
+      reject({status, statusText, responseText, headers});
     }
     ajax(opt);
   });
