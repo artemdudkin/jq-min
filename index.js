@@ -9,8 +9,8 @@
 *  method           == POST by default
 *  headers          == array of header; adds 'Content-Type'='application/json' by default
 *  data             == data to send (not stringified if json)
-*  success(responseText, data) == success callback, where data is parsed json from responseText
-*  fail(status, statusText, responseText) == fail callback
+*  success(responseText, data, headers) == success callback, where data is parsed json from responseText
+*  fail(status, statusText, responseText, headers) == fail callback
 **/
 function ajax(opt){
 	if (typeof opt.url !== 'string') {
